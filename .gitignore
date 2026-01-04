@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Project specific
+*.mp4
+*.avi
+temp_output.mp4
+result_video.mp4
+__MACOSX/
+.DS_Store
+*.pt
+
+# Models (Nếu file model > 100MB thì github sẽ chặn, nên cân nhắc ignore nếu không cần thiết)
+# models/*.pt

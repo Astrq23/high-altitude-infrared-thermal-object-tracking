@@ -1,0 +1,10 @@
+ultralytics
+filterpy
+nest_asyncio
+motmetrics
+gradio
+opencv-python
+numpy
+scipy
+pandas
+lap
