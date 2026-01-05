@@ -5,7 +5,7 @@
 ![Gradio](https://img.shields.io/badge/UI-Gradio-yellow)
 
 Hệ thống theo dõi đối tượng dành cho UAV (Máy bay không người lái), được tối ưu hóa đặc biệt cho dữ liệu video nhiệt/hồng ngoại quay từ độ cao lớn. Dự án tích hợp **YOLOv8** để phát hiện đối tượng, **Global Motion Compensation (GMC)** để xử lý chuyển động nền của camera, và **Kalman Filters** để theo dõi quỹ đạo bền vững.
-![Mô tả GIF](asset\result_video.gif)
+![Mô tả GIF](./asset/result_video.gif)
 
 ## Tính Năng Nổi Bật
 
