@@ -6,11 +6,14 @@ import motmetrics as mm
 from ultralytics import YOLO
 import gradio as gr
 
+# Import class mới đã sửa
+from src.utils.distance import DistanceEstimator
 from src.tracker.gmc import GMC
 from src.tracker.kalman import KalmanBoxTracker
 from src.tracker.association import associate_detections_to_trackers
 from src.utils.gt_loader import load_mot_gt
 import torch
+
 if torch.cuda.is_available():
     DEVICE = 0
 elif torch.backends.mps.is_available():
@@ -19,6 +22,7 @@ else:
     DEVICE = 'cpu'
 
 print(f"Đang sử dụng thiết bị: {DEVICE}")
+
 MODEL_OPTIONS = {
     "EfficientNetB0": "models/best.pt",
     "EfficientNetB3": "yolov8n.pt",
@@ -37,7 +41,13 @@ def calculate_iou_single(box1, box2):
     union = area1 + area2 - inter
     return inter/union if union > 0 else 0
 
-def process_video(video_path, gt_path, model_selection, conf_threshold, iou_threshold, target_boxes_list, progress=gr.Progress()):
+# CẬP NHẬT: Thêm tham số drone_altitude và gimbal_pitch vào hàm
+def process_video(video_path, gt_path, model_selection, conf_threshold, iou_threshold, target_boxes_list, 
+                  drone_altitude=130.0, gimbal_pitch=35.0, progress=gr.Progress()):
+    """
+    drone_altitude: Độ cao mặc định (mét).
+    gimbal_pitch: Góc camera mặc định (độ).
+    """
     if video_path is None: return None, "Vui lòng upload video."
 
     model_path = MODEL_OPTIONS.get(model_selection, "yolov8n.pt")
@@ -66,6 +76,11 @@ def process_video(video_path, gt_path, model_selection, conf_threshold, iou_thre
     
     trackers = []
     gmc = GMC(downscale=2)
+    
+    # CẬP NHẬT: Khởi tạo DistanceEstimator với image_height thay vì object_real_height
+    # focal_length=1470 cần được calib lại theo camera drone thực tế
+    dist_estimator = DistanceEstimator(focal_length=1470, image_height=height)
+    
     KalmanBoxTracker.count = 0
     frame_idx = 0
 
@@ -171,6 +186,11 @@ def process_video(video_path, gt_path, model_selection, conf_threshold, iou_thre
         for d in ret_trackers:
             d = d[0]
             x1, y1, x2, y2, tid = int(d[0]), int(d[1]), int(d[2]), int(d[3]), int(d[4])
+            
+            # CẬP NHẬT: Logic tính khoảng cách mới
+            # Truyền bounding box và tham số bay
+            g_dist, s_dist = dist_estimator.estimate([x1, y1, x2, y2], drone_altitude, gimbal_pitch)
+            
             should_draw = True
             color = (0, 255, 0)
             thickness = 2
@@ -183,8 +203,16 @@ def process_video(video_path, gt_path, model_selection, conf_threshold, iou_thre
             
             if should_draw:
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
-                label = f"TARGET {tid}" if (is_selective_mode and tid in target_track_ids) else f"ID {tid}"
-                cv2.putText(frame, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+                cv2.circle(frame, (int((x1+x2)/2), y2), 4, (0, 0, 255), -1) # Vẽ điểm chân
+
+                # CẬP NHẬT: Hiển thị khoảng cách mặt đất (G) và đường chéo (S)
+                label = f"ID:{tid} | G:{g_dist}m"
+                if is_selective_mode and tid in target_track_ids:
+                    label = f"TARGET {tid} | G:{g_dist}m"
+                
+                (w, h), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
+                cv2.rectangle(frame, (x1, y1 - 20), (x1 + w, y1), color, -1)
+                cv2.putText(frame, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         
         out.write(frame)
 
@@ -199,7 +227,6 @@ def process_video(video_path, gt_path, model_selection, conf_threshold, iou_thre
             metrics_str = mm.io.render_summary(summary, formatters=mh.formatters, namemap={'num_frames': 'Frames', 'mota': 'MOTA', 'motp': 'MOTP', 'idf1': 'IDF1', 'mostly_tracked': 'MT', 'mostly_lost': 'ML', 'num_switches': 'ID Sw'})
         except: metrics_str = "Error calculating metrics"
 
-    # Convert to H264 for Gradio display compatibility
     if os.path.exists(final_output_path): os.remove(final_output_path)
     try:
         subprocess.call(args=f"ffmpeg -y -i {output_path} -c:v libx264 {final_output_path} -loglevel quiet", shell=True)

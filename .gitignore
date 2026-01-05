@@ -12,6 +12,8 @@ result_video.mp4
 __MACOSX/
 .DS_Store
 *.pt
+.gradio/
+
 
 # Models (Nếu file model > 100MB thì github sẽ chặn, nên cân nhắc ignore nếu không cần thiết)
 # models/*.pt
