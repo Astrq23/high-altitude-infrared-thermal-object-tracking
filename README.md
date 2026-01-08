@@ -76,6 +76,7 @@ uav_tracking_project/
 * Tối ưu hóa pipeline xử lý video để tận dụng GPU hiệu quả.
 * Viết tài liệu hướng dẫn sử dụng và cấu trúc dự án.
 3. Nguyễn Quang Việt:
+* Hỗ trợ nghiên cứu và lựa chọn mô hình YOLOv8 phù hợp cho phát hiện đối tượng trong video nhiệt.
 * Tích hợp thư viện motmetrics để đánh giá hiệu suất theo dõi đa đối tượng.
 * Thực hiện các thử nghiệm và đánh giá mô hình trên tập dữ liệu UAV nhiệt.
 * Hỗ trợ viết tài liệu kỹ thuật và báo cáo dự án.
