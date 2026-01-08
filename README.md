@@ -10,7 +10,7 @@ Hệ thống theo dõi đối tượng dành cho UAV (Máy bay không người l
 ## Tính Năng Nổi Bật
 
 * **Bù Trừ Chuyển Động Toàn Cục (GMC):** Sử dụng Sparse Optical Flow (Lucas-Kanade) và RANSAC để ổn định việc theo dõi khi camera rung lắc hoặc di chuyển nhanh.
-* **Theo Dõi Bền Vững:** Kết hợp **Kalman Filter** (ước lượng trạng thái) và **Thuật toán Hungarian** (liên kết dữ liệu dựa trên IoU) giúp giảm thiểu mất dấu.
+* **Association:** Kết hợp **Kalman Filter** (ước lượng trạng thái) và **Thuật toán Hungarian** (liên kết dữ liệu dựa trên IoU) giúp giảm thiểu mất dấu.
 * **Giao Diện Tương Tác (Web UI):** Giao diện trực quan sử dụng Gradio cho phép:
     * Quét video để xem các đối tượng phát hiện được.
     * **Click-to-Select:** Click chuột để chọn chính xác đối tượng cần theo dõi (hoặc để trống để theo dõi tất cả).
