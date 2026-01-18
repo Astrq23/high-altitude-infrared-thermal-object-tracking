@@ -10,7 +10,7 @@ Hệ thống theo dõi đối tượng dành cho UAV (Máy bay không người l
 ## Tính Năng Nổi Bật
 
 * **Bù Trừ Chuyển Động Toàn Cục (GMC):** Sử dụng Sparse Optical Flow (Lucas-Kanade) và RANSAC để ổn định việc theo dõi khi camera rung lắc hoặc di chuyển nhanh.
-* **Theo Dõi Bền Vững:** Kết hợp **Kalman Filter** (ước lượng trạng thái) và **Thuật toán Hungarian** (liên kết dữ liệu dựa trên IoU) giúp giảm thiểu mất dấu.
+* **Association:** Kết hợp **Kalman Filter** (ước lượng trạng thái) và **Thuật toán Hungarian** (liên kết dữ liệu dựa trên IoU) giúp giảm thiểu mất dấu.
 * **Giao Diện Tương Tác (Web UI):** Giao diện trực quan sử dụng Gradio cho phép:
     * Quét video để xem các đối tượng phát hiện được.
     * **Click-to-Select:** Click chuột để chọn chính xác đối tượng cần theo dõi (hoặc để trống để theo dõi tất cả).
@@ -76,6 +76,7 @@ uav_tracking_project/
 * Tối ưu hóa pipeline xử lý video để tận dụng GPU hiệu quả.
 * Viết tài liệu hướng dẫn sử dụng và cấu trúc dự án.
 3. Nguyễn Quang Việt:
+* Hỗ trợ nghiên cứu và lựa chọn mô hình YOLOv8 phù hợp cho phát hiện đối tượng trong video nhiệt.
 * Tích hợp thư viện motmetrics để đánh giá hiệu suất theo dõi đa đối tượng.
 * Thực hiện các thử nghiệm và đánh giá mô hình trên tập dữ liệu UAV nhiệt.
 * Hỗ trợ viết tài liệu kỹ thuật và báo cáo dự án.
