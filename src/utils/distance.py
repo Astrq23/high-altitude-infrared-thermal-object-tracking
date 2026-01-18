@@ -44,7 +44,6 @@ class DistanceEstimator:
         if total_angle >= (math.pi / 2) - 0.01:
             return 0.0, drone_altitude
 
-        # Công thức: D = H / tan(theta)
         ground_dist = drone_altitude / math.tan(total_angle)
         slant_dist = drone_altitude / math.sin(total_angle)
         

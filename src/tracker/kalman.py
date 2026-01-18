@@ -1,7 +1,6 @@
 import numpy as np
 from filterpy.kalman import KalmanFilter
 
-# Fix cho numpy phiên bản mới nếu cần
 if not hasattr(np, 'asfarray'):
     np.asfarray = lambda x: np.asarray(x, dtype=np.float64)
 
@@ -25,7 +24,7 @@ class KalmanBoxTracker:
         self.hits = 0
         self.hit_streak = 0
         self.age = 0
-        self.state = 0 # 0: Tentative, 1: Confirmed
+        self.state = 0
 
     def apply_gmc(self, warp_matrix):
         pos = np.array([self.kf.x[0, 0], self.kf.x[1, 0], 1.0])
