@@ -65,19 +65,3 @@ uav_tracking_project/
     * Click vào đối tượng cần theo dõi hoặc để trống để theo dõi tất cả.
     * Bấm "Start Processing" để bắt đầu theo dõi.
 
-## Đóng Góp
-1. Nguyễn Hoàng Việt: 
-* Gán nhãn các đối tượng trong video để đánh giá hiệu suất theo dõi.
-* Triển khai và tối ưu hóa thuật toán theo dõi với GMC và Kalman Filter.
-* Xây dựng giao diện người dùng với Gradio để tương tác dễ dàng.
-* Viết tài liệu hướng dẫn sử dụng và cấu trúc dự án.
-2. Nguyễn Thừa Tuân:
-* Nghiên cứu và lựa chọn mô hình YOLOv8 phù hợp cho phát hiện đối tượng trong video nhiệt.
-* Tối ưu hóa pipeline xử lý video để tận dụng GPU hiệu quả.
-* Viết tài liệu hướng dẫn sử dụng và cấu trúc dự án.
-3. Nguyễn Quang Việt:
-* Hỗ trợ nghiên cứu và lựa chọn mô hình YOLOv8 phù hợp cho phát hiện đối tượng trong video nhiệt.
-* Tích hợp thư viện motmetrics để đánh giá hiệu suất theo dõi đa đối tượng.
-* Thực hiện các thử nghiệm và đánh giá mô hình trên tập dữ liệu UAV nhiệt.
-* Hỗ trợ viết tài liệu kỹ thuật và báo cáo dự án.
-
